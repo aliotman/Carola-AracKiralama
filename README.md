@@ -55,12 +55,14 @@ Projeyi **N-Tier (katmanlı) mimari**, **Repository Pattern** ve **FluentValidat
 
 ## Teknoloji Yığını
 
- *ASP.NET Core MVC
- *Entity Framework Core
- *MSSQL Server
- *FluentValidation
- *AutoMapper
- *MailKit
- *Tesseract
- *Ayrıca bu projede arayüz geliştirme ve kullanıcı deneyimi tasarımı süreçlerinde Claude AI gibi yapay zeka araçlarından aktif olarak faydalandım
----
+| Teknoloji | Kullanım Amacı |
+|---|---|
+| **ASP.NET Core MVC** | Web uygulama çatısı |
+| **Entity Framework Core** | ORM, Code-First migration |
+| **MS SQL Server** | İlişkisel veritabanı |
+| **FluentValidation** | Doğrulama kuralları |
+| **AutoMapper** | Entity ↔ DTO dönüşümü |
+| **MailKit** | SMTP üzerinden e-posta gönderimi |
+| **Tesseract** | Ehliyet görselinden OCR ile metin okuma |
+
+> Arayüz geliştirme ve kullanıcı deneyimi tasarımı süreçlerinde Claude AI gibi yapay zeka araçlarından faydalandım.
