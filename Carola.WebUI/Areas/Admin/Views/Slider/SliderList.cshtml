@@ -1,0 +1,67 @@
+﻿@model List<Carola.EntityLayer.Entities.Slider>
+
+@{
+    ViewData["Title"] = "Slider Listesi";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-head">
+    <div>
+        <div class="page-title">Slider Listesi</div>
+        <div class="page-sub">Toplam @Model.Count slider kaydı</div>
+    </div>
+    <a href="/Admin/Slider/CreateSlider" class="btn-primary-custom">
+        <i class="bi bi-plus-lg"></i> Yeni Slider
+    </a>
+</div>
+
+<div class="table-wrap">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Başlık</th>
+                <th>Alt Başlık</th>
+                <th>Açıklama</th>
+                <th>Sıra</th>
+                <th>Durum</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var slider in Model)
+            {
+                <tr>
+                    <td style="color:var(--text2);">@slider.SliderId</td>
+                    <td style="font-weight:600;">@slider.Title</td>
+                    <td style="color:var(--text2);">@slider.Subtitle</td>
+                    <td style="color:var(--text2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@slider.Description</td>
+                    <td style="color:var(--text2);">@slider.Order</td>
+                    <td>
+                        @if (slider.IsActive)
+                        {
+                            <span class="badge-custom success"><i class="bi bi-check-circle"></i> Aktif</span>
+                        }
+                        else
+                        {
+                            <span class="badge-custom danger"><i class="bi bi-x-circle"></i> Pasif</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="/Admin/Slider/UpdateSlider/@slider.SliderId" class="act-btn edit" title="Düzenle">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/Admin/Slider/DeleteSlider/@slider.SliderId"
+                           onclick="return confirm('Bu slider\'ı silmek istediğinize emin misiniz?')"
+                           class="act-btn delete" title="Sil">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

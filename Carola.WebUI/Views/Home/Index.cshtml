@@ -1,0 +1,181 @@
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+@await Html.PartialAsync("_Header")
+
+    <!-- yükleniyor animasyonu -->
+    <div class="loader-wrap">
+        <div class="preloader">
+            <div class="preloader-close">x</div>
+            <div id="handle-preloader" class="handle-preloader">
+                <div class="animation-preloader">
+                    <div class="spinner"></div>
+                    <div class="txt-loading">
+                        <span data-text-preloader="C" class="letters-loading">C</span>
+                        <span data-text-preloader="a" class="letters-loading">a</span>
+                        <span data-text-preloader="r" class="letters-loading">r</span>
+                        <span data-text-preloader="o" class="letters-loading">o</span>
+                        <span data-text-preloader="l" class="letters-loading">l</span>
+                        <span data-text-preloader="a" class="letters-loading">a</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- yükleniyor animasyonu sonu -->
+    <!-- Üst Menü -->
+    <header class="header home-three">
+        <div class="header-top-one">
+            <div class="container">
+                <div class="header-top-outer">
+                    <div class="header-top-info">
+                        <i class="far fa-clock" style="color: #ffffff;"></i>
+                        <p style="color: #ffffff;">Çalışma Saatleri: Pazartesi - Cuma 08.00 - 18.00</p>
+                    </div>
+                    <div class="header-top-contact-info">
+                        <ul>
+                            <li><i class="icon-22" style="color: #ffffff;"></i><a href="#" style="color: #ffffff;">+90 216 555 01 42</a></li>
+                            <li><i class="icon-23" style="color: #ffffff;"></i><a href="mailto:info@carola.com" style="color: #ffffff;">info@carola.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_header">
+            <div class="container">
+                <div class="main_header_inner">
+                    <div class="main_header_logo">
+                        <figure>
+                            <a href="/"><img src="/carola/assets/images/logo-light.png" alt="Carola Logo"></a>
+                        </figure>
+                    </div>
+                    <div class="main_header_menu menu_area">
+                        <div class="mobile-nav-toggler">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </div>
+                        <nav class="main-menu">
+                            <div class="collapse navbar-collapse show" id="navbarSupportedContent">
+                                <ul class="navigation">
+                                    <li class="active"><a href="/" style="color: #ffffff;">Ana Sayfa</a></li>
+                                    <li><a href="/Car/List" style="color: #ffffff;">Araç Listesi</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="header_right_content">
+                        <div class="link-btn"><a href="/Car/List" class="btn-style-one">Araç Kirala</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sticky_header">
+            <div class="container">
+                <div class="main_header_inner">
+                    <div class="main_header_logo">
+                        <figure>
+                            <a href="/"><img src="/carola/assets/images/logo-light.png" alt="Carola Logo"></a>
+                        </figure>
+                    </div>
+                    <div class="main_header_menu menu_area">
+                        <nav class="main-menu">
+                            <!--Keep This Empty / Menu will come through Javascript-->
+                        </nav>
+                    </div>
+                    <div class="header_right_content">
+                        <div class="link-btn"><a href="/Car/List" class="btn-style-one">Araç Kirala</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-menu">
+            <div class="menu-backdrop"></div>
+            <div class="close-btn">X</div>
+            <nav class="menu-box">
+                <div class="nav-logo"><a href="/"><img src="/carola/assets/images/mobile-logo.png" alt="" title=""></a></div>
+                <div class="menu-outer"></div>
+                <div class="contact-info">
+                    <h4>İletişim Bilgileri</h4>
+                    <ul>
+                        <li>Kadıköy, İstanbul</li>
+                        <li><a href="tel:+902165550142">+90 216 555 01 42</a></li>
+                        <li><a href="mailto:info@carola.com">info@carola.com</a></li>
+                    </ul>
+                </div>
+                <ul class="social-links centred">
+                    <li><a href="#"><span class="fab fa-twitter"></span></a></li>
+                    <li><a href="#"><span class="fab fa-facebook-square"></span></a></li>
+                    <li><a href="#"><span class="fab fa-pinterest-p"></span></a></li>
+                    <li><a href="#"><span class="fab fa-instagram"></span></a></li>
+                    <li><a href="#"><span class="fab fa-youtube"></span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Üst Menü Sonu -->
+    <!-- Slayt -->
+    @await Component.InvokeAsync("Slider")
+    <!-- Slayt Sonu -->
+    <!-- Arama Formu -->
+    @await Component.InvokeAsync("BookingForm")
+    <!-- Arama Formu Sonu -->
+    <!-- Araç Türleri -->
+    @await Component.InvokeAsync("CarTypes")
+    <!-- Araç Türleri Sonu -->
+    <!-- Ayırıcı -->
+    <section class="divider">
+        <div class="container">
+            <div class="border-divider"></div>
+        </div>
+    </section>
+    <!-- Ayırıcı Sonu -->
+    <!-- Neden Biz -->
+    <section class="why-chooseus-section pt_120 pb_90">
+        <div class="shape-three"><img src="/carola/assets/images/shape/shape-3.png" alt=""></div>
+        <div class="shape-four"><img src="/carola/assets/images/shape/shape-4.png" alt=""></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                    <div class="section-title mb_60">
+                        <span class="sub-title">Neden Carola?</span>
+                        <h2 class="title">Yolculuğunuzu kendi tarzınızla planlayın</h2>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                    <div class="why-chooseus-block">
+                        <div class="why-chooseus-icon light"><i class="icon-49"></i></div>
+                        <h5 class="why-chooseus-title">Ücretsiz Teslim ve İade</h5>
+                        <p class="why-chooseus-text">Aracınızı dilediğiniz şubemizden teslim alın, dilediğiniz şubeye bırakın. Ek ücret ödemeden, zahmetsiz bir kiralama deneyimi.</p>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                    <div class="why-chooseus-block">
+                        <div class="why-chooseus-icon light"><i class="icon-27"></i></div>
+                        <h5 class="why-chooseus-title">7/24 Yol Yardımı</h5>
+                        <p class="why-chooseus-text">Nerede ve ne zaman olursanız olun, yol yardım ekibimiz yanınızda. Yolda kalma endişesi olmadan güvenle sürün.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Neden Biz Sonu -->
+    <!-- Araç Listesi -->
+    @await Component.InvokeAsync("LastSixCars")
+    <!-- Araç Listesi Sonu -->
+    <!-- Markalar -->
+    @await Component.InvokeAsync("Brands")
+    <!-- Markalar Sonu -->
+    <!-- Şubeler -->
+    @await Component.InvokeAsync("Locations")
+    <!-- Şubeler Sonu -->
+
+    @await Html.PartialAsync("_Footer")
+
+    <button class="scroll-top scroll-to-target" data-target="html">
+        <i class="icon-13"></i>
+    </button>
+
+    @await Html.PartialAsync("_Scripts")

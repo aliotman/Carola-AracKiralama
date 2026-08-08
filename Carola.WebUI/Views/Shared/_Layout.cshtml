@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] | Carola Araç Kiralama</title>
+    <link rel="shortcut icon" href="/carola/assets/images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="/carola/assets/images/favicon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link href="/carola/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/carola/assets/css/fontawesome-all.css" rel="stylesheet">
+    <link href="/carola/assets/css/iconfont.css" rel="stylesheet">
+    <link href="/carola/assets/css/owl.css" rel="stylesheet">
+    <link href="/carola/assets/css/global.css" rel="stylesheet">
+    <link href="/carola/assets/css/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="/carola/assets/css/elements-css/header.css" rel="stylesheet">
+    <link href="/carola/assets/css/elements-css/footer.css" rel="stylesheet">
+    <link href="/carola/assets/css/elements-css/booking-form.css" rel="stylesheet">
+    <link href="/carola/assets/language-switcher/polyglot-language-switcher.css" rel="stylesheet" />
+    <link href="/carola/assets/css/daterangepicker.css" rel="stylesheet">
+    <link href="/carola/assets/css/jquery-ui.css" rel="stylesheet">
+    <link href="/carola/assets/css/style.css" rel="stylesheet">
+    <link href="/carola/assets/css/responsive.css" rel="stylesheet">
+    <link href="/carola/assets/css/jquery-ui.css" rel="stylesheet">
+</head>
+<body class="boxed_wrapper">
+
+    @RenderBody()
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

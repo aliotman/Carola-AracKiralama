@@ -1,0 +1,48 @@
+﻿@model string
+
+<section class="page-banner">
+    <div class="page-banner-image"></div>
+    <div class="container">
+        <div class="page-banner-content">
+            <h1>@Model</h1>
+        </div>
+    </div>
+</section>
+
+<style>
+    .page-banner {
+        position: relative;
+        overflow: hidden;
+        padding: 90px 0;
+        background-color: #1a1a2e;
+    }
+
+    .page-banner-image {
+        position: absolute;
+        inset: -20px;
+        background-image: url('https://loremflickr.com/1920/600/car,showroom/all?lock=900');
+        background-size: cover;
+        background-position: center;
+        filter: blur(5px) brightness(0.45);
+        transform: scale(1.08);
+        z-index: 0;
+    }
+
+    .page-banner .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .page-banner-content h1 {
+        color: #ffffff;
+        font-size: 44px;
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    @@media (max-width: 767px) {
+        .page-banner { padding: 60px 0; }
+        .page-banner-content h1 { font-size: 30px; }
+    }
+</style>

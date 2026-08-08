@@ -1,0 +1,24 @@
+﻿@model List<Carola.EntityLayer.Entities.Location>
+
+<section class="services-section pt_120 pb_90">
+    <div class="container">
+        <div class="section-title centred mb_60">
+            <span class="sub-title">Şubelerimiz</span>
+            <h2 class="title">Hizmet Verdiğimiz Noktalar</h2>
+        </div>
+        <div class="row">
+            @foreach (var location in Model)
+            {
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <div class="services-block-one">
+                        <h6 class="service-title"><a href="#">@location.LocationName, @location.City</a></h6>
+                        <div class="services-info">
+                            <p><i class="fas fa-map-marker-alt"></i> @location.Address</p>
+                            <p><i class="fas fa-user"></i> @location.AuthorizedPerson</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

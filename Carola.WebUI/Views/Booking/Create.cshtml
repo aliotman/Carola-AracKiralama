@@ -1,0 +1,334 @@
+﻿@model Carola.DtoLayer.Dtos.ReservationDtos.CreateReservationDto
+
+@{
+    ViewData["Title"] = "Rezervasyon";
+    var car = ViewBag.Car as Carola.EntityLayer.Entities.Car;
+    var locations = ViewBag.Locations as List<Carola.EntityLayer.Entities.Location>;
+    var pickupLocation = locations?.FirstOrDefault(l => l.LocationId == Model.PickupLocationId);
+    var returnLocation = locations?.FirstOrDefault(l => l.LocationId == Model.ReturnLocationId);
+}
+
+@await Html.PartialAsync("_Header")
+
+@await Html.PartialAsync("_Banner", "Rezervasyon")
+
+<section class="pt_80 pb_120" style="background-color: #f8f9fa;">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- Sol: Form -->
+            <div class="col-xl-8 col-lg-7 col-md-12">
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger mb_20" style="border-radius: 12px;">
+                        <div class="fw-bold mb-2">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Lütfen aşağıdaki hataları düzeltiniz:
+                        </div>
+                        <div asp-validation-summary="All" class="mb-0"></div>
+                    </div>
+                }
+
+                <form method="post" action="/Booking/Create" id="bookingForm" novalidate>
+                    <input type="hidden" asp-for="CarId" />
+                    <input type="hidden" asp-for="PickupDate" />
+                    <input type="hidden" asp-for="ReturnDate" />
+                    <input type="hidden" asp-for="PickupLocationId" />
+                    <input type="hidden" asp-for="ReturnLocationId" />
+
+                    <!-- Kişisel Bilgiler -->
+                    <div class="card border-0 shadow-sm mb_20" style="border-radius: 12px;">
+                        <div class="card-body p-4">
+                            <h4 class="mb_30" style="color: #1a1a2e; font-weight: 700;">
+                                <i class="fas fa-user-circle me-2" style="color: #e63946;"></i>
+                                Kişisel Bilgiler
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Ad</label>
+                                    <input asp-for="FirstName" class="form-control form-control-lg"
+                                           placeholder="Adınız"
+                                           style="border-radius: 8px; border: 1px solid #dee2e6;" />
+                                    <span asp-validation-for="FirstName" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Soyad</label>
+                                    <input asp-for="LastName" class="form-control form-control-lg"
+                                           placeholder="Soyadınız"
+                                           style="border-radius: 8px; border: 1px solid #dee2e6;" />
+                                    <span asp-validation-for="LastName" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">E-posta</label>
+                                    <input asp-for="Email" type="email" class="form-control form-control-lg"
+                                           placeholder="ornek@email.com"
+                                           style="border-radius: 8px; border: 1px solid #dee2e6;" />
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Telefon</label>
+                                    <input asp-for="Phone" type="tel" class="form-control form-control-lg"
+                                           placeholder="+90 5xx xxx xx xx"
+                                           style="border-radius: 8px; border: 1px solid #dee2e6;" />
+                                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ehliyet Bilgileri -->
+                    <div class="card border-0 shadow-sm mb_20" style="border-radius: 12px;">
+                        <div class="card-body p-4">
+                            <h4 class="mb_30" style="color: #1a1a2e; font-weight: 700;">
+                                <i class="fas fa-id-card me-2" style="color: #e63946;"></i>
+                                Ehliyet Bilgileri
+                            </h4>
+
+                            <!-- OCR Upload -->
+                            <div class="ocr-upload-box mb_30 p-4 text-center"
+                                 style="border: 2px dashed #dee2e6; border-radius: 12px; background: #f8f9fa; cursor: pointer;"
+                                 onclick="document.getElementById('licenseImage').click()">
+                                <i class="fas fa-camera mb_10" style="font-size: 40px; color: #adb5bd;"></i>
+                                <p class="mb-1 fw-semibold">Ehliyet Görselinizi Yükleyin</p>
+                                <p class="text-muted small">Bilgileriniz otomatik olarak doldurulacak</p>
+                                <p class="text-muted small mb-0">JPG, PNG, WEBP veya BMP · en fazla 5 MB</p>
+                                <input type="file" id="licenseImage"
+                                       accept=".jpg,.jpeg,.png,.webp,.bmp,image/jpeg,image/png,image/webp,image/bmp"
+                                       style="display:none;" onchange="processLicense(this)" />
+                            </div>
+
+                            <div id="ocrLoading" style="display:none;" class="text-center mb_20">
+                                <div class="spinner-border text-danger" role="status"></div>
+                                <p class="mt-2 text-muted">Ehliyet okunuyor...</p>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Sürücü Belgesi No</label>
+                                    <input asp-for="LicenseNumber" id="licenseNumber"
+                                           class="form-control form-control-lg" placeholder="Sürücü belgesi numaranız"
+                                           style="border-radius: 8px; border: 1px solid #dee2e6;" />
+                                    <span asp-validation-for="LicenseNumber" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">TC Kimlik No</label>
+                                    <input asp-for="IdentityNumber" id="identityNumber"
+                                           class="form-control form-control-lg" placeholder="TC Kimlik numaranız"
+                                           inputmode="numeric" maxlength="11"
+                                           style="border-radius: 8px; border: 1px solid #dee2e6;" />
+                                    <span asp-validation-for="IdentityNumber" class="text-danger small"></span>
+                                    <span class="text-danger small" id="err-identity"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Doğum Tarihi</label>
+                                    <input asp-for="BirthDate" type="date" id="birthDate"
+                                           max="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                           class="form-control form-control-lg"
+                                           style="border-radius: 8px; border: 1px solid #dee2e6;" />
+                                    <span asp-validation-for="BirthDate" class="text-danger small"></span>
+                                    <span class="text-danger small" id="err-birth"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" asp-for="Description" />
+
+                    <button type="submit" class="btn-style-one w-100 py-3"
+                            style="border-radius: 10px; font-size: 18px; font-weight: 700;">
+                        <i class="fas fa-check-circle me-2"></i> Rezervasyon Yap
+                    </button>
+                </form>
+            </div>
+
+            <!-- Sağ: Özet -->
+            <div class="col-xl-4 col-lg-5 col-md-12">
+                <div class="card border-0 shadow-sm" style="border-radius: 12px; position: sticky; top: 20px;">
+                    <div class="card-body p-4">
+
+                        <!-- Araç -->
+                        <div class="text-center mb_20">
+                            <img src="@car?.ImageUrl" alt="@car?.Brand @car?.Model"
+                                 class="img-fluid mb_15" style="border-radius: 10px; max-height: 180px; object-fit: cover;">
+                            <h4 style="font-weight: 700;">@car?.Brand @car?.Model</h4>
+                            <p class="text-muted">@car?.ModelYear · @car?.Category?.CategoryName</p>
+                        </div>
+
+                        <div style="border-top: 1px solid #dee2e6;" class="pt_20 mb_20">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-gas-pump me-1"></i> Yakıt</span>
+                                <span class="fw-semibold">@car?.FuelType</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-cog me-1"></i> Vites</span>
+                                <span class="fw-semibold">@car?.TransmissionType</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted"><i class="fas fa-user me-1"></i> Koltuk</span>
+                                <span class="fw-semibold">@car?.SeatCount</span>
+                            </div>
+                        </div>
+
+                        <div style="border-top: 1px solid #dee2e6;" class="pt_20 mb_20">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-map-marker-alt me-1"></i> Alış Şubesi</span>
+                                <span class="fw-semibold text-end" style="max-width: 55%;">@pickupLocation?.LocationName</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-map-marker-alt me-1"></i> İade Şubesi</span>
+                                <span class="fw-semibold text-end" style="max-width: 55%;">@returnLocation?.LocationName</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-calendar me-1"></i> Alış Tarihi</span>
+                                <span class="fw-semibold">@Model.PickupDate.ToString("dd.MM.yyyy")</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-calendar me-1"></i> İade Tarihi</span>
+                                <span class="fw-semibold">@Model.ReturnDate.ToString("dd.MM.yyyy")</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted"><i class="fas fa-moon me-1"></i> Toplam Gün</span>
+                                <span class="fw-semibold">@ViewBag.TotalDays gün</span>
+                            </div>
+                        </div>
+
+                        <div style="border-top: 1px solid #dee2e6;" class="pt_20">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Günlük Fiyat</span>
+                                <span>₺@car?.DailyPrice</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Hesaplama</span>
+                                <span>@ViewBag.TotalDays gün × ₺@car?.DailyPrice</span>
+                            </div>
+                            <div class="d-flex justify-content-between mt_10 pt_10"
+                                 style="border-top: 2px solid #e63946;">
+                                <span style="font-size: 18px; font-weight: 700;">Toplam</span>
+                                <span style="font-size: 22px; font-weight: 700; color: #e63946;">₺@ViewBag.TotalPrice</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@await Html.PartialAsync("_Footer")
+
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="icon-13"></i>
+</button>
+
+@section Scripts {
+    <script>
+        document.getElementById('bookingForm').addEventListener('submit', function (e) {
+            let ok = true;
+
+            const tc = document.getElementById('identityNumber').value.trim();
+            const tcErr = document.getElementById('err-identity');
+            if (!/^\d{11}$/.test(tc)) {
+                tcErr.textContent = 'TC Kimlik No tam olarak 11 haneli olmalıdır.';
+                ok = false;
+            } else if (tc[0] === '0') {
+                tcErr.textContent = 'TC Kimlik No 0 ile başlayamaz.';
+                ok = false;
+            } else {
+                tcErr.textContent = '';
+            }
+
+            const bd = document.getElementById('birthDate').value;
+            const bdErr = document.getElementById('err-birth');
+            if (!bd) {
+                bdErr.textContent = 'Doğum tarihi seçilmelidir.';
+                ok = false;
+            } else {
+                const b = new Date(bd), t = new Date();
+                let age = t.getFullYear() - b.getFullYear();
+                const m = t.getMonth() - b.getMonth();
+                if (m < 0 || (m === 0 && t.getDate() < b.getDate())) age--;
+
+                if (age < 18) {
+                    bdErr.textContent = '18 yaşından küçükler rezervasyon yapamaz.';
+                    ok = false;
+                } else {
+                    bdErr.textContent = '';
+                }
+            }
+
+            if (!ok) e.preventDefault();
+        });
+
+        async function processLicense(input) {
+            if (!input.files || !input.files[0]) return;
+
+            var dosya = input.files[0];
+            var enFazla = 5 * 1024 * 1024;
+            var izinli = ['image/jpeg', 'image/png', 'image/webp', 'image/bmp'];
+
+            if (dosya.size > enFazla) {
+                alert('Dosya boyutu en fazla 5 MB olabilir.');
+                input.value = '';
+                return;
+            }
+            if (izinli.indexOf(dosya.type) === -1) {
+                alert('Yalnızca JPG, PNG, WEBP veya BMP dosyası yükleyebilirsiniz.');
+                input.value = '';
+                return;
+            }
+
+            document.getElementById('ocrLoading').style.display = 'block';
+
+            const formData = new FormData();
+            formData.append('licenseImage', input.files[0]);
+
+            try {
+                const response = await fetch('/Booking/ProcessLicense', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    if (result.licenseNumber) {
+                        document.getElementById('licenseNumber').value = result.licenseNumber;
+                    }
+                    if (result.birthDate) {
+                        const parts = result.birthDate.split(/[.\/]/);
+                        if (parts.length === 3) {
+                            document.getElementById('birthDate').value =
+                                `${parts[2]}-${parts[1]}-${parts[0]}`;
+                        }
+                    }
+                    if (result.firstName) {
+                        document.querySelector('input[name="FirstName"]').value = result.firstName;
+                    }
+                    if (result.lastName) {
+                        document.querySelector('input[name="LastName"]').value = result.lastName;
+                    }
+                    if (result.identityNumber) {
+                        document.getElementById('identityNumber').value = result.identityNumber;
+                    }
+                    if (!result.licenseNumber && !result.birthDate && !result.firstName && !result.lastName) {
+                        alert('Ehliyet bilgileri okunamadı, lütfen manuel doldurun.');
+                    }
+                } else {
+                    alert('Ehliyet okunamadı: ' + result.message);
+                }
+            } catch (err) {
+                alert('Bir hata oluştu, lütfen tekrar deneyin.');
+            } finally {
+                document.getElementById('ocrLoading').style.display = 'none';
+            }
+        }
+    </script>
+}
+
+@await Html.PartialAsync("_Scripts")

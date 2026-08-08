@@ -1,0 +1,103 @@
+﻿@model List<Carola.EntityLayer.Entities.Car>
+
+@{
+    ViewData["Title"] = "Araç Listesi";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-head">
+    <div>
+        <div class="page-title">Araç Listesi</div>
+        <div class="page-sub">Toplam @Model.Count araç kayıtlı</div>
+    </div>
+    <a href="/Admin/Car/CreateCar" class="btn-primary-custom">
+        <i class="bi bi-plus-lg"></i> Yeni Araç
+    </a>
+</div>
+
+<div class="toolbar">
+    <div class="toolbar-search">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Araç ara..." oninput="filterTable(this.value)" />
+    </div>
+</div>
+
+<div class="table-wrap">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Araç</th>
+                <th>Plaka</th>
+                <th>Kategori</th>
+                <th>Şube</th>
+                <th>Yakıt</th>
+                <th>Vites</th>
+                <th>Günlük Fiyat</th>
+                <th>Durum</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            @foreach (var car in Model)
+            {
+                <tr data-search="@(car.Brand + " " + car.Model + " " + car.PlateNumber + " " + car.Category?.CategoryName + " " + car.Location?.LocationName)">
+                    <td style="color:var(--text2);">@car.CarId</td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <div class="avatar purple">
+                                <i class="bi bi-car-front"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight:600;">@car.Brand @car.Model</div>
+                                <div style="font-size:12px;color:var(--text2);">@car.ModelYear</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="color:var(--text2);">@car.PlateNumber</td>
+                    <td style="color:var(--text2);">@car.Category?.CategoryName</td>
+                    <td style="color:var(--text2);">@car.Location?.LocationName</td>
+                    <td style="color:var(--text2);">@car.FuelType</td>
+                    <td style="color:var(--text2);">@car.TransmissionType</td>
+                    <td>
+                        <span style="color:var(--accent);font-weight:700;">₺@car.DailyPrice</span>
+                    </td>
+                    <td>
+                        @if (car.IsAvailable)
+                        {
+                            <span class="badge-custom success"><i class="bi bi-check-circle"></i> Müsait</span>
+                        }
+                        else
+                        {
+                            <span class="badge-custom warning"><i class="bi bi-clock"></i> Kirada</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="/Admin/Car/UpdateCar/@car.CarId" class="act-btn edit" title="Düzenle">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/Admin/Car/DeleteCar/@car.CarId"
+                           onclick="return confirm('Bu aracı silmek istediğinize emin misiniz?')"
+                           class="act-btn delete" title="Sil">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        function filterTable(q) {
+            document.querySelectorAll('#tableBody tr').forEach(row => {
+                const s = row.getAttribute('data-search')?.toLowerCase() || '';
+                row.style.display = s.includes(q.toLowerCase()) ? '' : 'none';
+            });
+        }
+    </script>
+}

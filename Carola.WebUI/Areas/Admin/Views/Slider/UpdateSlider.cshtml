@@ -1,0 +1,71 @@
+﻿@model Carola.EntityLayer.Entities.Slider
+
+@{
+    ViewData["Title"] = "Slider Güncelle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-head">
+    <div>
+        <div class="page-title">Slider Güncelle</div>
+        <div class="page-sub">Slider bilgilerini düzenle</div>
+    </div>
+    <a href="/Admin/Slider/SliderList" class="btn-ghost">
+        <i class="bi bi-arrow-left"></i> Geri Dön
+    </a>
+</div>
+
+<div class="form-card">
+    <div class="form-section-title">
+        <i class="bi bi-images"></i> Slider Bilgileri
+    </div>
+
+    <form method="post">
+        <input asp-for="SliderId" type="hidden" />
+        <div class="row g-4">
+            <div class="col-md-6">
+                <label class="form-label-custom">Başlık</label>
+                <input asp-for="Title" class="form-input" placeholder="Slider başlığı" />
+                <span asp-validation-for="Title" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">Alt Başlık</label>
+                <input asp-for="Subtitle" class="form-input" placeholder="Slider alt başlığı" />
+                <span asp-validation-for="Subtitle" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-12">
+                <label class="form-label-custom">Açıklama</label>
+                <textarea asp-for="Description" class="form-input" rows="3" placeholder="Slider açıklaması"></textarea>
+                <span asp-validation-for="Description" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-12">
+                <label class="form-label-custom">Arkaplan Görsel URL</label>
+                <input asp-for="BackgroundImageUrl" class="form-input" placeholder="https://..." />
+                <span asp-validation-for="BackgroundImageUrl" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Sıra</label>
+                <input asp-for="Order" class="form-input" />
+                <span asp-validation-for="Order" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Durum</label>
+                <select asp-for="IsActive" class="form-input">
+                    <option value="true">Aktif</option>
+                    <option value="false">Pasif</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="margin-top: 28px; display: flex; gap: 12px;">
+            <button type="submit" class="btn-primary-custom">
+                <i class="bi bi-check-lg"></i> Güncelle
+            </button>
+            <a href="/Admin/Slider/SliderList" class="btn-ghost">İptal</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

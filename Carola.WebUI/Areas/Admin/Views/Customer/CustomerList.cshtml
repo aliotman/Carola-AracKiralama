@@ -1,0 +1,83 @@
+﻿@model List<Carola.DtoLayer.Dtos.CustomerDtos.ResultCustomerDto>
+
+@{
+    ViewData["Title"] = "Müşteri Listesi";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-head">
+    <div>
+        <div class="page-title">Müşteri Listesi</div>
+        <div class="page-sub">Toplam @Model.Count kayıtlı müşteri</div>
+    </div>
+    <a href="/Admin/Customer/CreateCustomer" class="btn-primary-custom">
+        <i class="bi bi-plus-lg"></i> Yeni Müşteri
+    </a>
+</div>
+
+<div class="toolbar">
+    <div class="toolbar-search">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Müşteri ara..." oninput="filterTable(this.value)" />
+    </div>
+</div>
+
+<div class="table-wrap">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Müşteri</th>
+                <th>E-posta</th>
+                <th>Telefon</th>
+                <th>Doğum Tarihi</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            @foreach (var c in Model)
+            {
+                <tr data-search="@(c.FullName + " " + c.Email + " " + c.Phone)">
+                    <td style="color:var(--text2);">@c.CustomerId</td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <div class="avatar purple">
+                                @c.Initials
+                            </div>
+                            <div>
+                                <div style="font-weight:600;">@c.FullName</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="color:var(--text2);">@c.Email</td>
+                    <td style="color:var(--text2);">@c.Phone</td>
+                    <td style="color:var(--text2);">@c.BirthDate.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        <a href="/Admin/Customer/UpdateCustomer/@c.CustomerId" class="act-btn edit" title="Düzenle">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/Admin/Customer/DeleteCustomer/@c.CustomerId"
+                           onclick="return confirm('Bu müşteriyi silmek istediğinize emin misiniz?')"
+                           class="act-btn delete" title="Sil">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        function filterTable(q) {
+            document.querySelectorAll('#tableBody tr').forEach(row => {
+                const s = row.getAttribute('data-search')?.toLowerCase() || '';
+                row.style.display = s.includes(q.toLowerCase()) ? '' : 'none';
+            });
+        }
+    </script>
+}

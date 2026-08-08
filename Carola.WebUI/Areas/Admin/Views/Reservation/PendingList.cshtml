@@ -1,0 +1,85 @@
+﻿@model List<Carola.DtoLayer.Dtos.ReservationDtos.ReservationDetailDto>
+
+@{
+    ViewData["Title"] = "Onay Bekleyen Rezervasyonlar";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-head">
+    <div>
+        <div class="page-title">Onay Bekleyen Rezervasyonlar</div>
+        <div class="page-sub">Toplam @Model.Count rezervasyon onay bekliyor</div>
+    </div>
+    <a href="/Admin/Reservation/ReservationList" class="btn-ghost">
+        <i class="bi bi-list-ul"></i> Tüm Rezervasyonlar
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:60px;text-align:center;">
+        <i class="bi bi-check-all" style="font-size:48px;color:var(--success);"></i>
+        <p style="margin-top:16px;color:var(--text2);font-size:15px;">Onay bekleyen rezervasyon bulunmuyor.</p>
+    </div>
+}
+else
+{
+    <div class="table-wrap">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Araç</th>
+                    <th>Müşteri</th>
+                    <th>Alış Şubesi</th>
+                    <th>İade Şubesi</th>
+                    <th>Alış Tarihi</th>
+                    <th>İade Tarihi</th>
+                    <th>Toplam Fiyat</th>
+                    <th>Açıklama</th>
+                    <th>Onayla</th>
+                    <th>Reddet</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td style="color:var(--text2);">@r.ReservationId</td>
+                        <td>
+                            <div style="font-weight:600;">@r.CarBrand @r.CarModel</div>
+                        </td>
+                        <td>
+                            <div style="font-weight:600;">@r.CustomerFirstName @r.CustomerLastName</div>
+                            <div style="color:var(--text2);font-size:12px;">@r.CustomerEmail</div>
+                        </td>
+                        <td style="color:var(--text2);">@r.PickupLocationName</td>
+                        <td style="color:var(--text2);">@r.ReturnLocationName</td>
+                        <td style="color:var(--text2);">@r.PickupDate.ToString("dd.MM.yyyy")</td>
+                        <td style="color:var(--text2);">@r.ReturnDate.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            <span style="color:var(--accent);font-weight:700;">₺@r.TotalPrice</span>
+                        </td>
+                        <td style="color:var(--text2);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                            @r.Description
+                        </td>
+                        <td>
+                            <a href="/Admin/Reservation/ApproveReservation/@r.ReservationId"
+                               onclick="return confirm('Bu rezervasyonu onaylamak istediğinize emin misiniz?')"
+                               class="act-btn view" title="Onayla">
+                                <i class="bi bi-check-lg"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/Admin/Reservation/RejectReservation/@r.ReservationId"
+                               onclick="return confirm('Bu rezervasyonu reddetmek istediğinize emin misiniz?')"
+                               class="act-btn delete" title="Reddet">
+                                <i class="bi bi-x-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,48 @@
+﻿@model List<Carola.EntityLayer.Entities.Brand>
+
+<section class="brand-section pt_120 pb_120">
+    <div class="container">
+        <div class="section-title-box">
+            <div class="section-title">
+                <span class="sub-title">Markalar</span>
+                <h2 class="title">Öne Çıkan Otomobil Markaları</h2>
+            </div>
+        </div>
+        <div class="brand-outer-box">
+            @foreach (var brand in Model)
+            {
+                <div class="single-brand-item">
+                    <div class="brand-image">
+                        <img src="@brand.LogoUrl" alt="@brand.BrandName">
+                    </div>
+                    <div class="brand-title">
+                        <h6>@brand.BrandName</h6>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    .single-brand-item .brand-image {
+        height: 60px;
+        line-height: normal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+        overflow: hidden;
+    }
+
+    .single-brand-item .brand-image img {
+        max-height: 60px;
+        max-width: 100%;
+        width: auto;
+        object-fit: contain;
+    }
+
+    .single-brand-item .brand-title {
+        clear: both;
+    }
+</style>

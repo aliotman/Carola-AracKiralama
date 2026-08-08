@@ -1,0 +1,47 @@
+﻿@model List<Carola.EntityLayer.Entities.Category>
+
+<section class="car-type-section pt_120 pb_90 home-three">
+    <div class="container">
+        <div class="section-title centred mb_60">
+            <span class="sub-title">Araç Türleri</span>
+            <h2 class="title">Araç Türlerini Keşfedin</h2>
+        </div>
+        <div class="car-type-outer-box">
+            @foreach (var category in Model)
+            {
+                <div class="car-type-item">
+                    <div class="car-image">
+                        <img src="@category.CategoryImageUrl" alt="@category.CategoryName">
+                        <div class="shape"><img src="/carola/assets/images/shape/shape-2.png" alt=""></div>
+                    </div>
+                    <div class="car-name">
+                        <h6><a href="/Car/List?categoryId=@category.CategoryId">@category.CategoryName</a></h6>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    .home-three .car-type-item .car-image {
+        height: 100px;
+        line-height: normal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .car-type-item .car-image img {
+        max-height: 100px;
+        max-width: 100%;
+        width: auto;
+        object-fit: contain;
+        border-radius: 8px;
+    }
+
+    .car-type-item .car-image .shape img {
+        max-height: none;
+    }
+</style>

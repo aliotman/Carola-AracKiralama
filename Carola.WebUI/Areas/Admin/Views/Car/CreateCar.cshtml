@@ -1,0 +1,124 @@
+﻿@model Carola.EntityLayer.Entities.Car
+
+@{
+    ViewData["Title"] = "Araç Ekle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-head">
+    <div>
+        <div class="page-title">Araç Ekle</div>
+        <div class="page-sub">Yeni araç kaydı oluştur</div>
+    </div>
+    <a href="/Admin/Car/CarList" class="btn-ghost">
+        <i class="bi bi-arrow-left"></i> Geri Dön
+    </a>
+</div>
+
+<div class="form-card">
+    <div class="form-section-title">
+        <i class="bi bi-car-front"></i> Araç Bilgileri
+    </div>
+
+    <form method="post">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <label class="form-label-custom">Marka</label>
+                <input asp-for="Brand" class="form-input" placeholder="ör. Toyota" />
+                <span asp-validation-for="Brand" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">Model</label>
+                <input asp-for="Model" class="form-input" placeholder="ör. Corolla" />
+                <span asp-validation-for="Model" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Model Yılı</label>
+                <input asp-for="ModelYear" class="form-input" placeholder="ör. 2023" />
+                <span asp-validation-for="ModelYear" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Plaka</label>
+                <input asp-for="PlateNumber" class="form-input" placeholder="ör. 34ABC123" />
+                <span asp-validation-for="PlateNumber" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Günlük Fiyat ($)</label>
+                <input asp-for="DailyPrice" class="form-input" placeholder="ör. 150" />
+                <span asp-validation-for="DailyPrice" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Koltuk Sayısı</label>
+                <input asp-for="SeatCount" class="form-input" placeholder="ör. 5" />
+                <span asp-validation-for="SeatCount" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Bagaj Kapasitesi</label>
+                <input asp-for="LuggageCapacity" class="form-input" placeholder="ör. 450" />
+                <span asp-validation-for="LuggageCapacity" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Kilometre</label>
+                <input asp-for="Mileage" class="form-input" placeholder="ör. 15000" />
+                <span asp-validation-for="Mileage" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Yakıt Tipi</label>
+                <select asp-for="FuelType" class="form-input">
+                    <option value="">Seçiniz</option>
+                    <option value="Benzin">Benzin</option>
+                    <option value="Dizel">Dizel</option>
+                    <option value="Elektrik">Elektrik</option>
+                    <option value="Hibrit">Hibrit</option>
+                </select>
+                <span asp-validation-for="FuelType" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Vites Tipi</label>
+                <select asp-for="TransmissionType" class="form-input">
+                    <option value="">Seçiniz</option>
+                    <option value="Otomatik">Otomatik</option>
+                    <option value="Manuel">Manuel</option>
+                </select>
+                <span asp-validation-for="TransmissionType" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Kategori</label>
+                <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-input">
+                    <option value="">Seçiniz</option>
+                </select>
+                <span asp-validation-for="CategoryId" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">Şube</label>
+                <select asp-for="LocationId" asp-items="ViewBag.Locations" class="form-input">
+                    <option value="">Seçiniz</option>
+                </select>
+                <span asp-validation-for="LocationId" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">Görsel URL</label>
+                <input asp-for="ImageUrl" class="form-input" placeholder="https://..." />
+                <span asp-validation-for="ImageUrl" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label-custom">Müsait mi?</label>
+                <select asp-for="IsAvailable" class="form-input">
+                    <option value="true">Evet</option>
+                    <option value="false">Hayır</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="margin-top: 28px; display: flex; gap: 12px;">
+            <button type="submit" class="btn-primary-custom">
+                <i class="bi bi-check-lg"></i> Kaydet
+            </button>
+            <a href="/Admin/Car/CarList" class="btn-ghost">İptal</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

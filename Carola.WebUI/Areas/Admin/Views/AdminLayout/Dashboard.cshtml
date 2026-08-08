@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Kontrol Paneli";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-head">
+    <div>
+        <div class="page-title">Kontrol Paneli</div>
+        <div class="page-sub">Hoş geldiniz, genel istatistikler aşağıda</div>
+    </div>
+</div>
+
+<!-- KPI Kartları -->
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-icon purple"><i class="bi bi-car-front"></i></div>
+        <div>
+            <div class="kpi-val">@ViewBag.TotalCars</div>
+            <div class="kpi-lbl">Toplam Araç</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon green"><i class="bi bi-check-circle"></i></div>
+        <div>
+            <div class="kpi-val">@ViewBag.AvailableCars</div>
+            <div class="kpi-lbl">Müsait Araç</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon orange"><i class="bi bi-clock"></i></div>
+        <div>
+            <div class="kpi-val">@ViewBag.RentedCars</div>
+            <div class="kpi-lbl">Kiradaki Araç</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon teal"><i class="bi bi-people"></i></div>
+        <div>
+            <div class="kpi-val">@ViewBag.TotalCustomers</div>
+            <div class="kpi-lbl">Toplam Müşteri</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon purple"><i class="bi bi-calendar-check"></i></div>
+        <div>
+            <div class="kpi-val">@ViewBag.TotalReservations</div>
+            <div class="kpi-lbl">Toplam Rezervasyon</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon orange"><i class="bi bi-hourglass-split"></i></div>
+        <div>
+            <div class="kpi-val">@ViewBag.PendingReservations</div>
+            <div class="kpi-lbl">Onay Bekleyen</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon green"><i class="bi bi-check-all"></i></div>
+        <div>
+            <div class="kpi-val">@ViewBag.ApprovedReservations</div>
+            <div class="kpi-lbl">Onaylanan</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon red"><i class="bi bi-x-circle"></i></div>
+        <div>
+            <div class="kpi-val">@ViewBag.RejectedReservations</div>
+            <div class="kpi-lbl">Reddedilen</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon teal"><i class="bi bi-shop"></i></div>
+        <div>
+            <div class="kpi-val">@ViewBag.TotalLocations</div>
+            <div class="kpi-lbl">Toplam Şube</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon green"><i class="bi bi-currency-dollar"></i></div>
+        <div>
+            <div class="kpi-val">₺@ViewBag.TotalRevenue</div>
+            <div class="kpi-lbl">Toplam Gelir</div>
+        </div>
+    </div>
+</div>
+
+<!-- Hızlı Erişim -->
+<div style="margin-top:8px;">
+    <div style="font-size:16px;font-weight:700;margin-bottom:16px;">Hızlı Erişim</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;">
+        <a href="/Admin/Reservation/PendingList" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:all var(--transition);"
+           onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="kpi-icon orange" style="width:40px;height:40px;font-size:18px;flex-shrink:0;">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+            <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text);">Onay Bekleyenler</div>
+                <div style="font-size:12px;color:var(--text2);">@ViewBag.PendingReservations bekliyor</div>
+            </div>
+        </a>
+        <a href="/Admin/Car/CarList" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:all var(--transition);"
+           onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="kpi-icon purple" style="width:40px;height:40px;font-size:18px;flex-shrink:0;">
+                <i class="bi bi-car-front"></i>
+            </div>
+            <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text);">Araç Yönetimi</div>
+                <div style="font-size:12px;color:var(--text2);">@ViewBag.TotalCars araç</div>
+            </div>
+        </a>
+        <a href="/Admin/Customer/CustomerList" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:all var(--transition);"
+           onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="kpi-icon teal" style="width:40px;height:40px;font-size:18px;flex-shrink:0;">
+                <i class="bi bi-people"></i>
+            </div>
+            <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text);">Müşteriler</div>
+                <div style="font-size:12px;color:var(--text2);">@ViewBag.TotalCustomers müşteri</div>
+            </div>
+        </a>
+        <a href="/Admin/Reservation/ReservationList" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:all var(--transition);"
+           onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="kpi-icon green" style="width:40px;height:40px;font-size:18px;flex-shrink:0;">
+                <i class="bi bi-calendar-check"></i>
+            </div>
+            <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text);">Rezervasyonlar</div>
+                <div style="font-size:12px;color:var(--text2);">@ViewBag.TotalReservations toplam</div>
+            </div>
+        </a>
+        <a href="/Admin/Slider/SliderList" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:all var(--transition);"
+           onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="kpi-icon purple" style="width:40px;height:40px;font-size:18px;flex-shrink:0;">
+                <i class="bi bi-images"></i>
+            </div>
+            <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text);">Slider Yönetimi</div>
+                <div style="font-size:12px;color:var(--text2);">Slider düzenle</div>
+            </div>
+        </a>
+        <a href="/Admin/Location/LocationList" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:all var(--transition);"
+           onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="kpi-icon teal" style="width:40px;height:40px;font-size:18px;flex-shrink:0;">
+                <i class="bi bi-shop"></i>
+            </div>
+            <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text);">Şubeler</div>
+                <div style="font-size:12px;color:var(--text2);">@ViewBag.TotalLocations şube</div>
+            </div>
+        </a>
+    </div>
+</div>

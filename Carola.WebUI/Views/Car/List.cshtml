@@ -1,0 +1,321 @@
+﻿@model List<Carola.DtoLayer.Dtos.CarDtos.CarListDto>
+
+@{
+    ViewData["Title"] = "Araç Listesi";
+}
+
+@await Html.PartialAsync("_Header")
+
+@await Html.PartialAsync("_Banner", "Araç Listesi")
+
+<!-- Araç Listeleme Bölümü -->
+<section class="car-listing-section pt_120 pb_90">
+    <div class="container">
+        <div class="row">
+
+            <!-- Sol: Filtreler -->
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <div class="product-sidebar mr_30">
+                    <form method="get" action="/Car/List">
+
+                        <!-- Şube ve Tarih -->
+                        <div class="sidebar-select-car-widget">
+                            <h3 class="sidebar-widget-title">Şube & Tarih</h3>
+                            <div class="filter-box">
+                                <div class="custom-select">
+                                    <select name="locationId" id="fLocationId">
+                                        <option value="">Alış Şubesi Seçiniz</option>
+                                        @foreach (var loc in ViewBag.Locations)
+                                        {
+                                            if (ViewBag.LocationId != null && ViewBag.LocationId == loc.LocationId)
+                                            {
+                                                <option value="@loc.LocationId" selected>@loc.LocationName - @loc.City</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@loc.LocationId">@loc.LocationName - @loc.City</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="custom-select">
+                                    <select name="returnLocationId" id="fReturnLocationId">
+                                        <option value="">İade Şubesi Seçiniz</option>
+                                        @foreach (var loc in ViewBag.Locations)
+                                        {
+                                            if (ViewBag.ReturnLocationId != null && ViewBag.ReturnLocationId == loc.LocationId)
+                                            {
+                                                <option value="@loc.LocationId" selected>@loc.LocationName - @loc.City</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@loc.LocationId">@loc.LocationName - @loc.City</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <label class="filter-date-label">Alış Tarihi</label>
+                                <input type="date" name="startDate" id="fStartDate" class="filter-date-input"
+                                       value="@ViewBag.StartDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+
+                                <label class="filter-date-label">İade Tarihi</label>
+                                <input type="date" name="endDate" id="fEndDate" class="filter-date-input"
+                                       value="@ViewBag.EndDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+
+                        <!-- Kategori ve Vites Filtresi -->
+                        <div class="sidebar-select-car-widget">
+                            <h3 class="sidebar-widget-title">Araç Türü ve Vites</h3>
+                            <div class="filter-box">
+                                <div class="custom-select">
+                                    <select name="categoryId">
+                                        <option value="">Tüm Türler</option>
+                                        @foreach (var category in ViewBag.Categories)
+                                        {
+                                            if (ViewBag.CategoryId == category.CategoryId)
+                                            {
+                                                <option value="@category.CategoryId" selected>@category.CategoryName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@category.CategoryId">@category.CategoryName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="custom-select">
+                                    <select name="transmissionType">
+                                        <option value="">Tüm Vites Tipleri</option>
+                                        @if (ViewBag.TransmissionType == "Otomatik")
+                                        {
+                                            <option value="Otomatik" selected>Otomatik</option>
+                                            <option value="Manuel">Manuel</option>
+                                        }
+                                        else if (ViewBag.TransmissionType == "Manuel")
+                                        {
+                                            <option value="Otomatik">Otomatik</option>
+                                            <option value="Manuel" selected>Manuel</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Otomatik">Otomatik</option>
+                                            <option value="Manuel">Manuel</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fiyat Filtresi -->
+                        <div class="sidebar-filter-widget">
+                            <h3 class="sidebar-widget-title">Fiyat Aralığı</h3>
+                            <div class="price-range-slider">
+                                <div id="slider-range" class="range-bar"></div>
+                                <p class="range-value">
+                                    <span>Fiyat:</span>
+                                    <input type="text" id="amount" readonly>
+                                </p>
+                                <input type="hidden" name="minPrice" id="minPrice" value="@ViewBag.MinPrice" />
+                                <input type="hidden" name="maxPrice" id="maxPrice" value="@ViewBag.MaxPrice" />
+                            </div>
+                        </div>
+
+                        <!-- Marka Filtresi -->
+                        <div class="sidebar-capacity-widget">
+                            <h3 class="sidebar-widget-title">Marka</h3>
+                            <ul class="capacity-list">
+                                <li>
+                                    <div class="check-box">
+                                        <input class="check" type="radio" name="brand" id="brandAll" value=""
+                                               @(string.IsNullOrEmpty(ViewBag.Brand as string) ? "checked" : "") />
+                                        <label for="brandAll">Tümü</label>
+                                    </div>
+                                </li>
+                                @foreach (var brand in ViewBag.Brands)
+                                {
+                                    <li>
+                                        <div class="check-box">
+                                            <input class="check" type="radio" name="brand" id="brand_@brand.BrandId"
+                                                   value="@brand.BrandName"
+                                                   @(ViewBag.Brand == brand.BrandName ? "checked" : "") />
+                                            <label for="brand_@brand.BrandId">@brand.BrandName</label>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                        <!-- Genel Apply ve Clear Butonları -->
+                        <div class="btn-box mt_30">
+                            <a href="/Car/List?locationId=@ViewBag.LocationId&returnLocationId=@ViewBag.ReturnLocationId&startDate=@ViewBag.StartDate&endDate=@ViewBag.EndDate"
+                               class="clear-btn">Temizle</a>
+                            <button type="submit" class="filter-btn btn-style-four">Filtrele</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sağ: Araç Listesi -->
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+
+                <div id="bookingParamsWarning"></div>
+
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-warning">
+                        Seçilen kriterlere uygun müsait araç bulunamadı.
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        @foreach (var car in Model)
+                        {
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="single-featured-car-block style_two">
+                                    <div class="single-featured-car-image">
+                                        <a href="#"><img src="@car.ImageUrl" alt="@car.Brand @car.Model"></a>
+                                    </div>
+                                    <div class="single-featured-car-content">
+                                        <h5 class="single-featured-car-title">
+                                            <a href="#">@car.Brand @car.Model</a>
+                                        </h5>
+                                        <div class="single-featured-car-rent-per-day-2">
+                                            <span>₺@car.DailyPrice</span>/ Gün
+                                        </div>
+                                        <div class="border-divider"></div>
+                                        <div class="featured-car-info-outer">
+                                            <ul class="single-featured-car-info">
+                                                <li><i class="icon-6"></i>@car.FuelType</li>
+                                                <li><i class="icon-30"></i>@car.TransmissionType</li>
+                                            </ul>
+                                            <ul class="single-featured-car-info">
+                                                <li><i class="icon-8"></i>@car.SeatCount Koltuk</li>
+                                                <li><i class="icon-7"></i>@car.ModelYear</li>
+                                            </ul>
+                                        </div>
+                                        <div class="single-featured-car-book-btn">
+                                            <a href="/Booking/Create?carId=@car.CarId&startDate=@ViewBag.StartDate&endDate=@ViewBag.EndDate&locationId=@ViewBag.LocationId&returnLocationId=@ViewBag.ReturnLocationId"
+                                               class="btn-style-three" onclick="return checkBookingParams();">Kirala</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Paging -->
+                    @if (ViewBag.TotalPages > 1)
+                    {
+                        <div class="pagination-box centred mt_40">
+                            <ul class="pagination">
+                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                {
+                                    <li class="@(i == ViewBag.CurrentPage ? "active" : "")">
+                                        <a href="/Car/List?locationId=@ViewBag.LocationId&returnLocationId=@ViewBag.ReturnLocationId&startDate=@ViewBag.StartDate&endDate=@ViewBag.EndDate&categoryId=@ViewBag.CategoryId&transmissionType=@ViewBag.TransmissionType&minPrice=@ViewBag.MinPrice&maxPrice=@ViewBag.MaxPrice&brand=@ViewBag.Brand&page=@i">
+                                            @i
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Araç Listeleme Bölümü Sonu -->
+<style>
+    .filter-date-label {
+        display: block;
+        margin-top: 12px;
+        margin-bottom: 4px;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .filter-date-input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+    }
+
+    #bookingParamsWarning {
+        display: none;
+        background: #fdecea;
+        border: 1px solid #e63946;
+        color: #b02a37;
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        function checkBookingParams() {
+            var missing = [];
+            if (!document.getElementById('fLocationId').value)       missing.push('Alış Şubesi');
+            if (!document.getElementById('fReturnLocationId').value) missing.push('İade Şubesi');
+            if (!document.getElementById('fStartDate').value)        missing.push('Alış Tarihi');
+            if (!document.getElementById('fEndDate').value)          missing.push('İade Tarihi');
+
+            var s  = document.getElementById('fStartDate').value;
+            var en = document.getElementById('fEndDate').value;
+
+            var box = document.getElementById('bookingParamsWarning');
+
+            if (missing.length > 0) {
+                box.innerHTML = 'Rezervasyon yapabilmek için soldaki filtre panelinden şunları seçmelisiniz: <br>• '
+                              + missing.join('<br>• ');
+                box.style.display = 'block';
+                box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return false;
+            }
+
+            if (en <= s) {
+                box.innerHTML = 'İade tarihi alış tarihinden sonra olmalıdır.';
+                box.style.display = 'block';
+                box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return false;
+            }
+
+            box.style.display = 'none';
+            return true;
+        }
+
+        $(function () {
+            var minVal = parseInt('@(ViewBag.MinPrice ?? 0)') || 0;
+            var maxVal = parseInt('@(ViewBag.MaxPrice ?? 5000)') || 5000;
+            var paraBirimi = '₺';
+
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 5000,
+                values: [minVal, maxVal],
+                slide: function (event, ui) {
+                    $("#amount").val(paraBirimi + ui.values[0] + " - " + paraBirimi + ui.values[1]);
+                    $("#minPrice").val(ui.values[0]);
+                    $("#maxPrice").val(ui.values[1]);
+                }
+            });
+
+            $("#amount").val(paraBirimi + $("#slider-range").slider("values", 0) +
+                " - " + paraBirimi + $("#slider-range").slider("values", 1));
+        });
+    </script>
+}
+@await Html.PartialAsync("_Footer")
+
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="icon-13"></i>
+</button>
+
+@await Html.PartialAsync("_Scripts")

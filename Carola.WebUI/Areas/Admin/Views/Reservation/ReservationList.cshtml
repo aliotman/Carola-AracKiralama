@@ -1,0 +1,96 @@
+﻿@model List<Carola.DtoLayer.Dtos.ReservationDtos.ReservationDetailDto>
+
+@{
+    ViewData["Title"] = "Rezervasyon Listesi";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-head">
+    <div>
+        <div class="page-title">Rezervasyon Listesi</div>
+        <div class="page-sub">Toplam @Model.Count rezervasyon</div>
+    </div>
+    <a href="/Admin/Reservation/PendingList" class="btn-primary-custom">
+        <i class="bi bi-clock"></i> Onay Bekleyenler
+    </a>
+</div>
+
+<div class="toolbar">
+    <div class="toolbar-search">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Rezervasyon ara..." oninput="filterTable(this.value)" />
+    </div>
+</div>
+
+<div class="table-wrap">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Araç</th>
+                <th>Müşteri</th>
+                <th>Alış Şubesi</th>
+                <th>İade Şubesi</th>
+                <th>Alış Tarihi</th>
+                <th>İade Tarihi</th>
+                <th>Toplam Fiyat</th>
+                <th>Durum</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            @foreach (var r in Model)
+            {
+                <tr data-search="@r.ReservationId @r.CarBrand @r.CarModel @r.CustomerFirstName @r.CustomerLastName @r.CustomerEmail @r.PickupLocationName @r.ReturnLocationName">
+                    <td style="color:var(--text2);">@r.ReservationId</td>
+                    <td>
+                        <div style="font-weight:600;">@r.CarBrand @r.CarModel</div>
+                    </td>
+                    <td>
+                        <div style="font-weight:600;">@r.CustomerFirstName @r.CustomerLastName</div>
+                        <div style="color:var(--text2);font-size:12px;">@r.CustomerEmail</div>
+                    </td>
+                    <td style="color:var(--text2);">@r.PickupLocationName</td>
+                    <td style="color:var(--text2);">@r.ReturnLocationName</td>
+                    <td style="color:var(--text2);">@r.PickupDate.ToString("dd.MM.yyyy")</td>
+                    <td style="color:var(--text2);">@r.ReturnDate.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        <span style="color:var(--accent);font-weight:700;">₺@r.TotalPrice</span>
+                    </td>
+                    <td>
+                        @if (r.ReservationStatus == "Onaylandı")
+                        {
+                            <span class="badge-custom success"><i class="bi bi-check-circle"></i> Onaylandı</span>
+                        }
+                        else if (r.ReservationStatus == "Beklemede")
+                        {
+                            <span class="badge-custom warning"><i class="bi bi-clock"></i> Beklemede</span>
+                        }
+                        else
+                        {
+                            <span class="badge-custom danger"><i class="bi bi-x-circle"></i> Reddedildi</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="/Admin/Reservation/DeleteReservation/@r.ReservationId"
+                           onclick="return confirm('Bu rezervasyonu silmek istediğinize emin misiniz?')"
+                           class="act-btn delete" title="Sil">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        function filterTable(q) {
+            document.querySelectorAll('#tableBody tr').forEach(row => {
+                const s = row.getAttribute('data-search')?.toLowerCase() || '';
+                row.style.display = s.includes(q.toLowerCase()) ? '' : 'none';
+            });
+        }
+    </script>
+}

@@ -1,0 +1,73 @@
+﻿@model Carola.DtoLayer.Dtos.CustomerDtos.CreateCustomerDto
+
+@{
+    ViewData["Title"] = "Müşteri Ekle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-head">
+    <div>
+        <div class="page-title">Müşteri Ekle</div>
+        <div class="page-sub">Yeni müşteri kaydı oluştur</div>
+    </div>
+    <a href="/Admin/Customer/CustomerList" class="btn-ghost">
+        <i class="bi bi-arrow-left"></i> Geri Dön
+    </a>
+</div>
+
+<div class="form-card">
+    <div class="form-section-title">
+        <i class="bi bi-person-plus"></i> Kişisel Bilgiler
+    </div>
+
+    <form asp-action="CreateCustomer" asp-controller="Customer" asp-area="Admin" method="post">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <label class="form-label-custom">Ad</label>
+                <input asp-for="FirstName" class="form-input" placeholder="Adınız" />
+                <span asp-validation-for="FirstName" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">Soyad</label>
+                <input asp-for="LastName" class="form-input" placeholder="Soyadınız" />
+                <span asp-validation-for="LastName" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">E-posta</label>
+                <input asp-for="Email" class="form-input" placeholder="ornek@email.com" />
+                <span asp-validation-for="Email" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">Telefon</label>
+                <input asp-for="Phone" class="form-input" placeholder="+90 5xx xxx xx xx" />
+                <span asp-validation-for="Phone" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">TC Kimlik No</label>
+                <input asp-for="IdentityNumber" class="form-input" placeholder="TC Kimlik numarası" />
+                <span asp-validation-for="IdentityNumber" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">Ehliyet No</label>
+                <input asp-for="DriverLicenseNumber" class="form-input" placeholder="Ehliyet numarası" />
+                <span asp-validation-for="DriverLicenseNumber" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label-custom">Doğum Tarihi</label>
+                <input asp-for="BirthDate" type="date" class="form-input" />
+                <span asp-validation-for="BirthDate" style="color:var(--danger);font-size:12px;"></span>
+            </div>
+        </div>
+
+        <div style="margin-top: 28px; display: flex; gap: 12px;">
+            <button type="submit" class="btn-primary-custom">
+                <i class="bi bi-check-lg"></i> Kaydet
+            </button>
+            <a href="/Admin/Customer/CustomerList" class="btn-ghost">İptal</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

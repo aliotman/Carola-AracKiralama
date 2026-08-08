@@ -1,0 +1,28 @@
+﻿@model List<Carola.EntityLayer.Entities.Slider>
+
+<section class="slider style_three">
+    <div class="owl-carousel owl-nav-none owl_dots_none theme_carousel owl-theme"
+         data-options='{"loop": true, "margin": 0, "autoheight":true, "lazyload":true, "nav": true, "dots": true, "autoplay": true, "autoplayTimeout": 7000, "smartSpeed": 1800, "responsive":{ "0" :{ "items": "1" }, "768" :{ "items" : "1" } , "1000":{ "items" : "1" }}}'>
+
+        @foreach (var slider in Model)
+        {
+            <div class="slide-item-content">
+                <div class="slide-item content_left">
+                    <div class="image-layer" style="background-image:url('@slider.BackgroundImageUrl'); filter: blur(2px) brightness(0.5); transform: scale(1.05);">
+                    </div>
+                    <div class="container">
+                        <div class="slider_content">
+                            <h6 class="animate_up d-inline-block" style="color: #e0e0e0;">@slider.Subtitle</h6>
+                            <h1 class="animate_left" style="color: #f0f0f0;">@slider.Title</h1>
+                            <p class="description animate_right" style="color: #cccccc;">@slider.Description</p>
+                            <div class="button_all animate_down">
+                                <a href="/Car/List" class="btn-style-four animated">Araçları İncele</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>

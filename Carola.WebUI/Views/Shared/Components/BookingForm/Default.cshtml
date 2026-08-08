@@ -1,0 +1,133 @@
+﻿@model List<Carola.EntityLayer.Entities.Location>
+
+<section class="booking-section home-three">
+    <div class="container">
+        <div class="filter-wrapper">
+            <div class="filter-group">
+                <form method="get" action="/Car/List" id="homeSearchForm" novalidate>
+                    <div class="filter-area">
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6 col-sm-12 colmun">
+                                <div class="single-search-box">
+                                    <div class="icon"><i class="icon-24"></i></div>
+                                    <div class="searchbox-input">
+                                        <label>Alış Şubesi</label>
+                                        <select name="locationId" class="form-control">
+                                            <option value="">Şube Seçiniz</option>
+                                            @foreach (var location in Model)
+                                            {
+                                                <option value="@location.LocationId">@location.LocationName - @location.City</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <span class="home-search-error" id="err-locationId"></span>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12 colmun">
+                                <div class="single-search-box">
+                                    <div class="icon"><i class="icon-24"></i></div>
+                                    <div class="searchbox-input">
+                                        <label>İade Şubesi</label>
+                                        <select name="returnLocationId" class="form-control">
+                                            <option value="">Şube Seçiniz</option>
+                                            @foreach (var location in Model)
+                                            {
+                                                <option value="@location.LocationId">@location.LocationName - @location.City</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <span class="home-search-error" id="err-returnLocationId"></span>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12 colmun">
+                                <div class="single-search-box">
+                                    <div class="icon"><i class="icon-25"></i></div>
+                                    <div class="searchbox-input">
+                                        <label>Alış Tarihi</label>
+                                        <input type="date" name="startDate" class="form-control"
+                                               min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    </div>
+                                </div>
+                                <span class="home-search-error" id="err-startDate"></span>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-sm-12 colmun">
+                                <div class="single-search-box">
+                                    <div class="icon"><i class="icon-26"></i></div>
+                                    <div class="searchbox-input">
+                                        <label>İade Tarihi</label>
+                                        <input type="date" name="endDate" class="form-control"
+                                               min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    </div>
+                                </div>
+                                <span class="home-search-error" id="err-endDate"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit">Araç Ara</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .home-search-error {
+        display: block;
+        color: #e63946;
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 6px;
+        min-height: 18px;
+    }
+
+    .single-search-box.is-invalid {
+        border: 1px solid #e63946 !important;
+        border-radius: 8px;
+    }
+</style>
+
+<script>
+    (function () {
+        var form = document.getElementById('homeSearchForm');
+        if (!form) return;
+
+        var fields = [
+            { name: 'locationId',       msg: 'Lütfen alış şubesi seçiniz.' },
+            { name: 'returnLocationId', msg: 'Lütfen iade şubesi seçiniz.' },
+            { name: 'startDate',        msg: 'Lütfen alış tarihi seçiniz.' },
+            { name: 'endDate',          msg: 'Lütfen iade tarihi seçiniz.' }
+        ];
+
+        function setError(name, message) {
+            var box = document.getElementById('err-' + name);
+            var el = form.querySelector('[name="' + name + '"]');
+            var wrapper = el ? el.closest('.single-search-box') : null;
+
+            if (box) box.textContent = message;
+            if (wrapper) wrapper.classList.toggle('is-invalid', message !== '');
+        }
+
+        form.addEventListener('submit', function (e) {
+            var valid = true;
+
+            fields.forEach(function (f) {
+                var el = form.querySelector('[name="' + f.name + '"]');
+                if (!el.value) {
+                    setError(f.name, f.msg);
+                    valid = false;
+                } else {
+                    setError(f.name, '');
+                }
+            });
+
+            var s = form.querySelector('[name="startDate"]').value;
+            var en = form.querySelector('[name="endDate"]').value;
+            if (s && en && en <= s) {
+                setError('endDate', 'İade tarihi alış tarihinden sonra olmalıdır.');
+                valid = false;
+            }
+
+            if (!valid) e.preventDefault();
+        });
+    })();
+</script>
