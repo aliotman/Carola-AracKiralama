@@ -55,12 +55,12 @@ Projeyi **N-Tier (katmanlı) mimari**, **Repository Pattern** ve **FluentValidat
 
 ## Teknoloji Yığını
 
-| ASP.NET Core MVC
-| Entity Framework Core
-| MSSQL Server
-| FluentValidation
-| AutoMapper
-| MailKit
-| Tesseract
-| Ayrıca bu projede arayüz geliştirme ve kullanıcı deneyimi tasarımı süreçlerinde Claude AI gibi yapay zeka araçlarından aktif olarak faydalandım
+ *ASP.NET Core MVC
+ *Entity Framework Core
+ *MSSQL Server
+ *FluentValidation
+ *AutoMapper
+ *MailKit
+ *Tesseract
+ *Ayrıca bu projede arayüz geliştirme ve kullanıcı deneyimi tasarımı süreçlerinde Claude AI gibi yapay zeka araçlarından aktif olarak faydalandım
 ---
